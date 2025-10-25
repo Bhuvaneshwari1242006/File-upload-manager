@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Upload Manager</title>
+</head>
+<body>
+  <h1>Upload a File</h1>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="file" id="fileInput" />
+    <button type="submit">Upload</button>
+  </form>
+
+  <script>
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById("fileInput");
+      const formData = new FormData();
+      formData.append("file", fileInput.files[0]);
+      const res = await fetch("http://localhost:5000/api/files/upload", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      alert("File uploaded: " + data.filename);
+    });
+  </script>
+</body>
+</html>
